@@ -10,14 +10,24 @@ COPY requirements.txt .
 # 安裝依賴
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 複製源代碼
+# 複製源代碼和配置文件
 COPY . .
 
-# 建立上傳目錄
-RUN mkdir -p pdfs
+# 建立必要的目錄
+RUN mkdir -p pdfs migrations/versions
+
+# 設置環境變數
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# 創建啟動腳本
+RUN echo '#!/bin/sh' > /app/start.sh && \
+    echo 'alembic upgrade head' >> /app/start.sh && \
+    echo 'exec python main.py' >> /app/start.sh && \
+    chmod +x /app/start.sh
 
 # 暴露端口
 EXPOSE 8080
 
 # 啟動命令
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["/app/start.sh"]
