@@ -1,0 +1,59 @@
+Threat Intelligence Analysis Summary
+================================
+
+Analysis focused on keyword: ransomware
+--------------------------------
+
+Finding 1:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: Kaspersky Lab APT intelligence
+
+Finding 2:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: Kaspersky Lab APT intelligence
+
+Finding 3:
+-----------
+Relevance: There is no specific mention of ransomware in the provided threat intelligence text.
+
+Threat Actor: malware
+Malware Name: com.appple.sysetmd
+Attack Vector: persistence
+
+Finding 4:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: Kaspersky Lab APT intelligence
+
+Finding 5:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: Kaspersky Lab APT intelligence
+
+Finding 6:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: group
+Malware Name: backdoor
+Attack Vector: social engineering
+Indicators: 216,370 bytes f0266724ff69e5ab819e554e33d39042 7578d23e160073cfac6fd65e426c6504 190,622 bytes 150e6b91cf714333193f5edfe6c4beef 545aaf30e7f7e1f786257d933b50f2da 895cbb84c7f5eb7fbce79a050c60b823 996cbd807f9aefca71162d11d2484efd
+
+Finding 7:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: Kaspersky Lab APT intelligence
+
+Finding 8:
+-----------
+Relevance: There is no specific information related to ransomware in the provided threat intelligence text.
+
+Threat Actor: Kaspersky Lab APT intelligence
+
