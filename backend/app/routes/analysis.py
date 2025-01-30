@@ -4,8 +4,8 @@ from typing import List, Optional
 import os
 from datetime import datetime
 import hashlib
-from ..database import get_db, get_es
-from ..models import LLMModel
+from app.database import get_db, get_es
+from app.models import LLMModel
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.chat_models import ChatOpenAI

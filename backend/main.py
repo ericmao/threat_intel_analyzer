@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from database import init, check_postgres_connection, check_es_connection
-from routes import api_keys, analysis
+from app.database import init, check_postgres_connection, check_es_connection
+from app.routes import api_keys_router, analysis_router
 
 app = FastAPI(title="Threat Intelligence Analyzer")
 
@@ -16,8 +16,8 @@ app.add_middleware(
 )
 
 # 註冊路由
-app.include_router(api_keys.router, prefix="/api", tags=["API Keys & Models"])
-app.include_router(analysis.router, prefix="/api", tags=["Analysis"])
+app.include_router(api_keys_router, prefix="/api", tags=["API Keys & Models"])
+app.include_router(analysis_router, prefix="/api", tags=["Analysis"])
 
 @app.on_event("startup")
 async def startup_event():
