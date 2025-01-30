@@ -6,9 +6,9 @@ from datetime import datetime
 import hashlib
 from app.database import get_db, get_es
 from app.models import LLMModel
-from langchain.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import create_extraction_chain
 
 router = APIRouter()

@@ -48,7 +48,7 @@ def get_db() -> Generator:
 
 def init_es():
     """Initialize Elasticsearch index with mapping."""
-    from models import es_threat_intel_mapping
+    from app.models import es_threat_intel_mapping
     
     if not es_client.indices.exists(index=ES_INDEX):
         es_client.indices.create(
@@ -59,7 +59,7 @@ def init_es():
 
 def init_db():
     """Initialize database with tables."""
-    from models import Base
+    from app.models import Base
     Base.metadata.create_all(bind=engine)
     print("Initialized PostgreSQL database")
 

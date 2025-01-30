@@ -24,7 +24,7 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # Import all models for Alembic to detect
-from models import Base
+from app.models import Base
 
 target_metadata = Base.metadata
 
