@@ -1,99 +1,34 @@
+version: '3.8'
+
 services:
-  backend:
-    platform: linux/arm64
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+  mosquitto:
+    image: eclipse-mosquitto:latest
     ports:
-      - "8080:8080"
+      - "1883:1883"
+      - "9001:9001"
     volumes:
-      - ./pdfs:/app/pdfs
-    environment:
-      - PORT=8080
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DB=${POSTGRES_DB:-threat_intel}
-      - ES_HOST=elasticsearch
-      - ES_PORT=9200
-      - ES_USER=${ES_USER:-elastic}
-      - ES_PASSWORD=${ES_PASSWORD:-changeme}
-    depends_on:
-      postgres:
-        condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    networks:
-      - app-network
-
-  frontend:
-    platform: linux/arm64
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8080
-    depends_on:
-      backend:
-        condition: service_healthy
-    networks:
-      - app-network
-
-  postgres:
-    image: postgres:15-alpine
-    platform: linux/arm64
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - POSTGRES_DB=${POSTGRES_DB:-threat_intel}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-threat_intel}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
-    networks:
-      - app-network
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1-arm64
-    platform: linux/arm64
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
-    healthcheck:
-      test: ["CMD-SHELL", "curl -s http://localhost:9200/_cluster/health | grep -q 'status.*green\\|status.*yellow'"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    networks:
-      - app-network
 
-networks:
-  app-network:
-    driver: bridge
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.3
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
 
 volumes:
-  postgres_data:
   elasticsearch_data:
-  pdfs:

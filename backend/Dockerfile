@@ -7,8 +7,12 @@ WORKDIR /app
 # 複製依賴文件
 COPY requirements.txt .
 
-# 安裝依賴
-RUN pip install --no-cache-dir -r requirements.txt
+# 安裝依賴和系統工具
+RUN apt-get update && \
+    apt-get install -y curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir -r requirements.txt
 
 # 複製源代碼和配置文件
 COPY . .

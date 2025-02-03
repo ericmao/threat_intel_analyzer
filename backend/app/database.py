@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from typing import Generator
@@ -82,7 +82,7 @@ def check_postgres_connection():
     """Check PostgreSQL connection."""
     try:
         with get_db() as db:
-            db.execute("SELECT 1")
+            db.execute(text("SELECT 1"))
         return True
     except Exception as e:
         print(f"PostgreSQL connection error: {e}")
